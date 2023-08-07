@@ -7,7 +7,8 @@
   "scripts": {
     "api": "nodemon api/server.js",
     "client": "npm run dev --prefix client",
-    "start": "concurrently \"npm run api\" \"npm run client\""
+    "shop": "npm run dev --prefix shop",
+    "start": "concurrently \"npm run api\" \"npm run client\" \"npm run shop\""
   },
   "keywords": [],
   "author": "",
