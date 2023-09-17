@@ -197,7 +197,11 @@ const Users = () => {
                 <option value="">..select..</option>
                 {role?.map((item, index) => {
                   return (
-                    <option key={index} value={item.name}>
+                    <option
+                      key={index}
+                      selected={role?.some((data) => data.id == input.id)}
+                      value={item.name}
+                    >
                       {item.name}
                     </option>
                   );

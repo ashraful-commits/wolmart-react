@@ -7,6 +7,7 @@ import Profile from "../pages/Profile/Profile";
 import Setting from "../pages/Setting/Setting";
 import Role from "../pages/Role/Role";
 import Permission from "../pages/Permission/Permission";
+import Brand from "../pages/Brand/Brand";
 
 const privateRouter = [
   {
@@ -38,6 +39,10 @@ const privateRouter = [
           {
             path: "/setting",
             element: <Setting />,
+          },
+          {
+            path: "/brands",
+            element: <Brand />,
           },
           {
             path: "/*",

@@ -27,3 +27,20 @@ export const galleryPhotoUpload = multer({
     maxCount: 10,
   },
 ]);
+
+const Storages = multer.diskStorage({
+  filename:(req,file,cb)=>{
+    cb(null,Date.now()+ Math.round(Math.random()*10000)+ "-" + file.fieldname)
+
+  },
+
+})
+export const brandLogo = multer({
+  storage:Storages
+}).single("logo")
+export const CatagoryPhoto = multer({
+  storage:Storages
+}).single("photo")
+export const ProductPhoto = multer({
+  storage:Storages
+}).array("photo")

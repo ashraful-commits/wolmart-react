@@ -1,0 +1,16 @@
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+.tag-list a {
+  padding: 10px;
+  border: 1px solid black;
+  color: black;
+  display: inline-block;
+  margin: 3px;
+}
+
+.tag-list a:hover {
+  background-color: black;
+  color: white;
+}

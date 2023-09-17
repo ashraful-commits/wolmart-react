@@ -6,20 +6,26 @@ const BrandSchema = mongoose.Schema(
     name: {
       type: String,
       trim: true,
+      unique:true
     },
     slug: {
       type: String,
       trim: true,
+      unique:true
+    },
+    logo: {
+      type: String,
+      
     },
     status: {
       type: Boolean,
       default: false,
     },
-    photo: {
-      type: String,
-      trim: true,
-      default: null,
-    },
+   
+    trash:{
+      type:Boolean,
+      default:false
+    }
   },
   { timestamps: true }
 );

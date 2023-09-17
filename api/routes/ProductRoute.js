@@ -8,6 +8,7 @@ import {
   updateSingleProducts,
 } from "../controllers/productController.js";
 import {
+  ProductPhoto,
   galleryPhotoUpload,
   singlePhotoUpload,
 } from "../middlewares/multer.js";
@@ -18,10 +19,10 @@ const productRoute = express.Router();
 
 productRoute
   .get("/", GetAllProducts)
-  .post("/", galleryPhotoUpload, createProducts);
+  .post("/", ProductPhoto, createProducts);
 productRoute
   .get("/:id", getSingleProducts)
-  .put("/:id", singlePhotoUpload, updateSingleProducts)
+  .put("/:id", ProductPhoto, updateSingleProducts)
   .patch("/:id", statusUpdateSingleProducts)
   .delete("/:id", deleteSingleProducts);
 export default productRoute;

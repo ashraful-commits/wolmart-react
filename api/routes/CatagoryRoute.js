@@ -1,22 +1,16 @@
 import express from "express";
-import {
-  GetAllCatagoryProducts,
-  createCatagoryProducts,
-  deleteSingleCatagoryProducts,
-  getSinglCatagoryeProducts,
-  statusSingleCatagoryProducts,
-  updateSingleCatagoryProducts,
-} from "../controllers/CatagoryController.js";
-import { singlePhotoUpload } from "../middlewares/multer.js";
 
-const catagoryRoute = express.Router();
+import { CatagoryPhoto, singlePhotoUpload } from "../middlewares/multer.js";
+import { GetAllCategoryProducts, createCategoryProducts, deleteSingleCategoryProducts, getSingleCategoryProducts, statusSingleCategoryProducts, updateSingleCategoryProducts } from "../controllers/CatagoryController.js";
 
-catagoryRoute
-  .get("/catagory", GetAllCatagoryProducts)
-  .post("/catagory", singlePhotoUpload, createCatagoryProducts);
-catagoryRoute
-  .get("/catagory/:id", getSinglCatagoryeProducts)
-  .put("/catagory/:id", singlePhotoUpload, updateSingleCatagoryProducts)
-  .delete("/catagory/:id", deleteSingleCatagoryProducts)
-  .patch("/catagory/:id", statusSingleCatagoryProducts);
-export default catagoryRoute;
+const categoryRoute = express.Router();
+
+categoryRoute
+  .get("/", GetAllCategoryProducts)
+  .post("/", singlePhotoUpload, createCategoryProducts);
+categoryRoute
+  .get("/:id", getSingleCategoryProducts)
+  .put("/:id", CatagoryPhoto, updateSingleCategoryProducts)
+  .delete("/:id", deleteSingleCategoryProducts)
+  .patch("/:id", statusSingleCategoryProducts);
+export default categoryRoute;

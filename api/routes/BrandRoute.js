@@ -3,21 +3,26 @@ import {
   GetAllBrandProducts,
   createBrandProducts,
   deleteSingleBrandProducts,
-  getSinglBrandeProducts,
+  getSingleBrandProducts,
   statusSingleBrandProducts,
   updateSingleBrandProducts,
 } from "../controllers/BrandController.js";
-import { singlePhotoUpload } from "../middlewares/multer.js";
+import { tokenVerify } from "../middlewares/TokenVerify.js";
+import { brandLogo } from "../middlewares/multer.js";
+
+
+
 
 const BrandRoute = express.Router();
+// BrandRoute.use(tokenVerify)
 
-BrandRoute.get("/brand", GetAllBrandProducts).post(
-  "/brand",
-  singlePhotoUpload,
-  createBrandProducts
+
+BrandRoute.get("/", GetAllBrandProducts).post(
+  "/",
+  brandLogo,createBrandProducts
 );
-BrandRoute.get("/brand/:id", getSinglBrandeProducts)
-  .put("/brand/:id", singlePhotoUpload, updateSingleBrandProducts)
-  .patch("/brand/:id", statusSingleBrandProducts)
-  .delete("/brand/:id", deleteSingleBrandProducts);
+BrandRoute.get("/:id", getSingleBrandProducts)
+  .put("/:id", brandLogo, updateSingleBrandProducts)
+  .patch("/:id", statusSingleBrandProducts)
+  .delete("/:id", deleteSingleBrandProducts);
 export default BrandRoute;

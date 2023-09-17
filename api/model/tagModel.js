@@ -11,6 +11,10 @@ const tagSchema = mongoose.Schema(
       type: String,
       trim: true,
     },
+   trash:{
+    type:Boolean,
+    default:false
+   },
     status: {
       type: Boolean,
       default: false,

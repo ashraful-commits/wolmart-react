@@ -44,11 +44,11 @@ export const userLogin = asyencHandeler(async (req, res) => {
   );
   res
     .cookie("accessToken", Token, {
-      httponly: true,
+      httpOnly: true,
       secure: process.env.APP_ENV === "development" ? false : true,
       sameSite:"strict",
       path:"/",
-      maxage: 1000 * 60 * 60 * 24 * 7,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
     })
     .status(200)
     .json({

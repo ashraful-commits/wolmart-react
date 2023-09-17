@@ -11,6 +11,7 @@ import {
   getAllRole,
   getAllUserData,
 } from "./features/user/userApiSlice";
+import { getAllBrands } from "./features/Product/ProductApiSlice";
 
 function App() {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ function App() {
     dispatch(getAllPermission());
     dispatch(getAllRole());
     dispatch(getAllUserData());
+    dispatch(getAllBrands());
   }, [dispatch]);
   useEffect(() => {
     if (localStorage.getItem("user")) {

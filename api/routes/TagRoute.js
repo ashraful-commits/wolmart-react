@@ -10,9 +10,9 @@ import {
 
 const TagRoute = express.Router();
 
-TagRoute.get("/tag", GetAllTagProducts).post("/tag", createTagProducts);
-TagRoute.get("/tag/:id", getSinglTageProducts)
-  .put("/tag/:id", updateSingleTagProducts)
-  .delete("/tag/:id", deleteSingleTagProducts)
-  .patch("/tag/:id", statusUpdateTagProducts);
+TagRoute.get("/", GetAllTagProducts).post("/", createTagProducts);
+TagRoute.get("/:id", getSinglTageProducts)
+  .put("/:id", updateSingleTagProducts)
+  .delete("/:id", deleteSingleTagProducts)
+  .patch("/:id", statusUpdateTagProducts);
 export default TagRoute;

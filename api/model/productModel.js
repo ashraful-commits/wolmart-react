@@ -3,14 +3,112 @@ import mongoose from "mongoose";
 //======================create schema
 const productSchema = mongoose.Schema(
   {
+  
     name: {
       type: String,
       trim: true,
-      
+      required:true
     },
     slug: {
       type: String,
       trim: true,
+    },
+    productType:{
+      type:String,
+      enum:["simple","variable","group","external"],
+      default:"simple"
+    },
+    simpleProduct:{
+     regularPrice:{
+      type:Number,
+      // required:true,
+     },
+     salePrice:{
+      type:Number,
+      // required:true,
+     },
+     productPhotos:{
+      type:Array,
+      
+     },
+     stock:{
+      type:Number,
+      default:0
+     }
+
+
+    },
+    variableProduct:[
+      { 
+       colors:{
+        type:String,
+        default:null
+      },
+      size:{
+        type:String,
+        default:null
+      },
+      regularPrice:{
+        type:Number,
+        // required:true,
+       },
+       salePrice:{
+        type:Number,
+        // required:true,
+       },
+       productPhotos:{
+        type:{String},
+        // required:true,
+       },
+       stock:{
+        type:Number,
+        default:0
+       }}
+      ],
+    groupProduct:[
+      {name:{
+        type:String,
+        // required:true,
+       },
+       regularPrice:{
+        type:Number,
+        // required:true,
+       },
+       salePrice:{
+        type:Number,
+        // required:true,
+       },
+       productPhotos:{
+        type:{String},
+        required:true,
+       },
+       stock:{
+        type:Number,
+        default:0
+       }}
+    ],
+    externalProduct:{
+     
+      regularPrice:{
+        type:Number,
+        // required:true,
+       },
+       salePrice:{
+        type:Number,
+        // required:true,
+       },
+       productPhotos:{
+        type:{String},
+        // required:true,
+       },
+       stock:{
+        type:Number,
+        default:0
+       },
+       link:{
+        type:String,
+        // required:true,
+       }
     },
     status: {
       type: Boolean,
@@ -25,33 +123,38 @@ const productSchema = mongoose.Schema(
       type: Array,
       trim: true,
     },
-    stock: {
-      type: Number,
-    },
-    raguler_price: {
+    longDesc: {
       type: String,
       trim: true,
     },
-    sale_price: {
+    shortDesc: {
       type: String,
       trim: true,
     },
-    long_dis: {
-      type: String,
-      trim: true,
+    specification:{
+      type:String,
+      
     },
-    short_dis: {
-      type: String,
-      trim: true,
+   
+    sku:{
+      type:String,
     },
-    catagory: {
+    reviews:{
+      type:[mongoose.Schema.Types.ObjectId],
+      ref:"Reviews",
+      default:null,
+    },
+    categories: {
       type: [mongoose.Schema.Types.ObjectId],
-      ref: "Catagory",
+      ref: "Category",
+      
     },
     brand: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref:"Brand",
+      
     },
-    tag: {
+    tags: {
       type: [mongoose.Schema.Types.ObjectId],
       ref: "Tag",
     },
