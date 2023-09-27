@@ -44,21 +44,19 @@ export const createCategoryProducts = asyncHandler(async (req, res, next) => {
 
     const { name,parentCategory,icon } = req.body;
   
-    const catagoryCheck = await CategoryModel.findOne({name})
+    const categoryCheck = await CategoryModel.findOne({name})
   
-    if(!catagoryCheck){
-      res.status(400).json({
-       
-        message: "cartagory alraedy exists",
+    if(categoryCheck){
+     return res.status(400).json({
+        message: "category already exists",
       });
-    }
-
-  // catagory icon 
+    }else{
+        // category icon 
   let catIcon = null
   if(icon){
     catIcon = icon
   }
-  // catagory icon 
+  // category icon 
   let catPhoto = null
   if(req.file){
    const cata = await cloudUpload(req)
@@ -67,17 +65,20 @@ export const createCategoryProducts = asyncHandler(async (req, res, next) => {
     const data = await CategoryModel.create({
       name,
       slug: createSlug(name),
-      parentCategory,
+      parentCategory:parentCategory?parentCategory:null,
       icon:catIcon,
       photo:catPhoto
     });
 if(parentCategory){
   const parent = await CategoryModel.findByIdAndUpdate(parentCategory,{$push:{subCategory:data._id}})
 }
-    res.status(200).json({
+   return res.status(200).json({
       category: data,
       message: "create product",
     });
+    }
+
+
   
 })
 //================create product
@@ -91,6 +92,9 @@ export const getSingleCategoryProducts = asyncHandler(async (req, res, next) => 
           path:"subCategory",
           populate:{
             path:"subCategory",
+            populate:{
+              path:"subCategory",
+            }
           }
         
       }},{path:"parentCategory", 
@@ -115,46 +119,62 @@ export const getSingleCategoryProducts = asyncHandler(async (req, res, next) => 
   
 })
 //================create product
-export const updateSingleCategoryProducts = (async (req, res, next) => {
+export const updateSingleCategoryProducts = async (req, res, next) => {
+  const { id } = req.params;
+  const { name, icon, parentCategory } = req.body;
+    const updateData = await CategoryModel.findById(id);
 
-    const { id } = req.params;
-    const { name,icon ,parentCategory} = req.body;
-      const updateData = await CategoryModel.findById(id);
-
-      if(!updateData){
-        res.status(200).json({
-          message: "Catagory not found !",
-        });
-      }
-      let updateCatPhoto = updateData.photo
-      let updateParentCat = updateData.parentCategory
-      let updateIcon = updateData.icon
-      if(req.file){
-        const updateUrl = await cloudUpload(req)    
-        updateCatPhoto = updateUrl.secure_url
-        await cloudDelete(publicIdGenerator(updateData.photo))
-      }
-        if(parentCategory){
-           updateParentCat = parentCategory    
-        }
-        if(icon){
-           updateIcon = icon    
-        }
-          updateData.name = name;
-          updateData.slug = createSlug(name);
-          updateData.icon = updateIcon;
-          updateData.parentCategory =updateParentCat,
-          console.log(updateCatPhoto)
-          updateData.photo = updateCatPhoto
-          updateData.save()
-         res.status(200).json({
-        category: updateData,
-        message: "Update Single category product",
+    if (!updateData) {
+      return res.status(404).json({
+        message: "Category not found!",
       });
-      
-     
+    }
+
+    let updateCatPhoto = updateData.photo;
+    let updateName = updateData.name;
+    let updateSlug = updateData.slug;
+    let updateParentCat = updateData.parentCategory;
+    let updateIcon = updateData.icon;
+
+    if (req.file) {
+      const updateUrl = await cloudUpload(req);
+      updateCatPhoto = updateUrl.secure_url;
+
+      if (updateData.photo) {
+        await cloudDelete(publicIdGenerator(updateData.photo));
+      }
+    }
+
+    if (parentCategory) {
+      updateParentCat = parentCategory;
+    }
+    if(parentCategory||updateData.parentCategory){
+      await CategoryModel.findByIdAndUpdate(parentCategory,{$push:{subCategory:updateData._id}})
+    }
+    if (name) {
+      updateName = name;
+    }
+    if (name) {
+      updateSlug = createSlug(name);
+    }
+
+    if (icon) {
+      updateIcon = icon;
+    }
+
+    updateData.name = updateName;
+    updateData.slug = updateSlug;
+    updateData.icon = updateIcon;
+    updateData.parentCategory = updateParentCat;
+    updateData.photo = updateCatPhoto;
+    await updateData.save();
+    return res.status(200).json({
+      category: updateData,
+      message: "Update Single category product",
+    });
   
-});
+};
+
 //================delete product
 export const deleteSingleCategoryProducts = asyncHandler(async (req, res, next) => {
   

@@ -88,7 +88,7 @@ const Users = () => {
         Add new User
       </button>
       <div className="row">
-        <PopupModel target="userModalpopup">
+        <PopupModel action="Add" name="User" target="userModalpopup">
           <form action="" onSubmit={handleCreateUser}>
             <div className="my-3">
               <label htmlFor="">Name</label>
@@ -149,7 +149,7 @@ const Users = () => {
           </form>
         </PopupModel>
         {/* eidt modal  */}
-        <PopupModel target="userEditModel">
+        <PopupModel action="Edit" name="User" target="userEditModel">
           <form action="" onSubmit={handleUpdateUser}>
             <div className="my-3">
               <label htmlFor="">Name</label>

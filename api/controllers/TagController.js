@@ -16,14 +16,23 @@ export const GetAllTagProducts = asyncHandler(async (req, res, ) => {
 export const createTagProducts = asyncHandler(async (req, res) => {
 
     const { name } = req.body;
-    const data = await tagModel.create({
-      name,
-      slug: createSlug(name),
-    });
-    res.status(200).json({
-      tag: data,
-      message: "create tag product",
-    });
+    const ExistTag = await tagModel.findOne({name})
+   
+    if(ExistTag){
+     return res.status(200).json({
+        message: "Already tag exist",
+      });
+    }else{
+      const data = await tagModel.create({
+        name,
+        slug: createSlug(name),
+      });
+      res.status(200).json({
+        tag: data,
+        message: "create tag product",
+      });
+    }
+ 
   
 })
 //==============================================================single tag  product

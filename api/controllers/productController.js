@@ -27,7 +27,6 @@ export const GetAllProducts = asyncHandler(async (req, res, next) => {
  */
 export const createProducts = asyncHandler(async (req, res, next) => {
   
-
     const {
       name,
       productType,
@@ -55,7 +54,7 @@ if(req.files){
     productFiles.push(fileUrl)
   }
 }
-console.log(productFiles)
+
 const simpleData = JSON.parse(simpleProduct)
 
     const data = await ProductModel.create({

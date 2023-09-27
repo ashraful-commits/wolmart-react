@@ -11,40 +11,31 @@ import { setMessageEmpty } from "../../features/user/userSlice";
 
 import { getTimeAgo } from "../../helper/TimeAgofunc";
 import swal from "sweetalert";
-import {
-  brandStatusUpdate,
-  createBrand,
-  deleteBrand,
-  updateBrand,
-} from "../../features/Product/ProductApiSlice";
-import { getAllProductState } from "../../features/Product/ProductSlice";
-import "./Brand.scss";
-const Brand = () => {
-  const dispatch = useDispatch();
-  const { error, message, brand, loader } = useSelector(getAllProductState);
 
-  const [logo, setLogo] = useState(null);
-  const [preview, setPreview] = useState(null);
+import { getAllProductState } from "../../features/Product/ProductSlice";
+import "./Tag.scss";
+import {
+  TagStatusUpdate,
+  createTag,
+  deleteTag,
+  updateTag,
+} from "../../features/Product/ProductApiSlice";
+const Tag = () => {
+  const dispatch = useDispatch();
+  const { error, message, tag, loader } = useSelector(getAllProductState);
+
   const [search, setSearch] = useState("");
   const [DataId, setDataId] = useState(null);
   const { input, handleInput, setInput } = useFormFields({ name: "" });
-  //=============handle brand logo
-  const handleBrandLogo = (e) => {
-    const logoFile = e.target.files[0];
-    setLogo(logoFile);
-    setPreview(URL.createObjectURL(logoFile));
-  };
-  const handleBrandCreate = (e) => {
+  //=============handle Tag logo
+
+  const handleTagCreate = (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("name", input.name);
-    formData.append("logo", logo);
-    console.log(logo);
-    dispatch(createBrand(formData));
+
+    dispatch(createTag({ name: input.name }));
     setInput({
       name: "",
     });
-    setPreview(null);
   };
   //==================================input
 
@@ -53,34 +44,25 @@ const Brand = () => {
     setInput({ name: e.target.value });
   };
   //   ======================= edit
-  const handleBrandEdit = (id) => {
-    const singleBrand = brand.find((item) => item._id === id);
+  const handleTagEdit = (id) => {
+    const singleTag = tag.find((item) => item._id === id);
     setDataId(id);
-    setInput({ name: singleBrand.name });
-    setPreview(singleBrand.logo);
+    setInput({ name: singleTag.name });
   };
   //=================== handle edit update
   const handleEditUpdate = (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.append("name", input.name);
-
-    if (logo) {
-      formData.append("logo", logo);
-    }
-
-    dispatch(updateBrand({ formData, DataId }));
+    dispatch(updateTag({ name: input.name, DataId }));
     setInput({
       name: "",
     });
-    setPreview(null);
   };
   //=================== handle edit update
-  const handleBrandStatus = (id, status) => {
-    dispatch(brandStatusUpdate({ id, status }));
+  const handleTagStatus = (id, status) => {
+    dispatch(TagStatusUpdate({ id, status }));
   };
-  // delete brand
+  // delete Tag
   const handleDelete = (id) => {
     swal({
       title: "Are you sure?",
@@ -93,7 +75,7 @@ const Brand = () => {
         swal("Poof!  file has been deleted!", {
           icon: "success",
         });
-        dispatch(deleteBrand(id));
+        dispatch(deleteTag(id));
       } else {
         swal(" file is safe!");
       }
@@ -109,15 +91,15 @@ const Brand = () => {
       Toastify(message, "success");
       dispatch(setMessageEmpty());
     }
-  }, [error, message, dispatch, brand]);
+  }, [error, message, dispatch, tag]);
   const cols = [
     {
-      name: "Brand Name",
+      name: "Tag Name",
       selector: (row) => row.name,
       sortable: true,
     },
     {
-      name: "Brand Slug",
+      name: "Tag Slug",
       selector: (row) => row.slug,
       sortable: true,
     },
@@ -129,7 +111,7 @@ const Brand = () => {
             type="checkbox"
             // className="check"
             checked={row?.status ? true : false}
-            onChange={() => handleBrandStatus(row._id, row.status)}
+            onChange={() => handleTagStatus(row?._id, row?.status)}
           />
           {/* <label htmlFor={row.name} className="checktoggle">
             checkbox
@@ -141,18 +123,15 @@ const Brand = () => {
       name: "CreatedAt",
       selector: (row) => getTimeAgo(row.createdAt),
     },
-    {
-      name: "Brand Logo",
-      selector: (row) => <img style={{ width: "30px" }} src={row.logo} />,
-    },
+
     {
       name: "Action",
       selector: (row) => (
         <div className="d-flex justify-content-center align-items-center">
           <button
-            data-target="#brandEdit"
+            data-target="#TagEdit"
             data-toggle="modal"
-            onClick={() => handleBrandEdit(row._id)}
+            onClick={() => handleTagEdit(row._id)}
             className="btn btn-warning mx-2"
           >
             <i className="fa fa-edit"></i>
@@ -172,19 +151,19 @@ const Brand = () => {
   };
   return (
     <>
-      <PageHeader title={"Brand"} />
+      <PageHeader title={"Tag"} />
       <button
-        data-target="#brandModel"
+        data-target="#TagModel"
         data-toggle="modal"
         className="btn btn-primary my-2"
       >
-        {loader ? "...Creating" : " Add new Brand"}
+        {loader ? "...Creating" : " Add new Tag"}
       </button>
       <div className="row">
-        <PopupModel action="Add" name="Brand" target="brandModel">
-          <form onSubmit={handleBrandCreate}>
+        <PopupModel action="Add" name="Tag" target="TagModel">
+          <form onSubmit={handleTagCreate}>
             <div className="my-3">
-              <label htmlFor="">Brand Name</label>
+              <label htmlFor="">Tag Name</label>
               <input
                 onChange={handleInput}
                 name="name"
@@ -192,31 +171,21 @@ const Brand = () => {
                 type="text"
                 className="form-control my-3"
               />
-              <label htmlFor="">Brand Logo</label>
-              <label htmlFor="">
-                <img className="w-100" src={preview} alt="" />
-              </label>
-              <input
-                onChange={handleBrandLogo}
-                name="logo"
-                type="file"
-                className="form-control my-3"
-              />
 
               <button
-                data-target="#brandModel"
+                data-target="#TagModel"
                 data-toggle="modal"
                 className="btn btn-primary btn-block"
               >
-                Add new Brand
+                Add new Tag
               </button>
             </div>
           </form>
         </PopupModel>
-        <PopupModel action="Edit" name="Brand" target="brandEdit">
+        <PopupModel action="Edit" name="Tag" target="TagEdit">
           <form onSubmit={handleEditUpdate}>
             <div className="my-3">
-              <label htmlFor="">Brand Name</label>
+              <label htmlFor="">Tag Name</label>
               <input
                 onChange={handleEditInput}
                 name="name"
@@ -224,16 +193,9 @@ const Brand = () => {
                 type="text"
                 className="form-control my-3"
               />
-              <label htmlFor="">Brand Logo</label>
-              <img src={preview} className="w-100" alt="" />
-              <input
-                onChange={handleBrandLogo}
-                name="logo"
-                type="file"
-                className="form-control my-3"
-              />
+
               <button className="btn btn-primary btn-block">
-                Edit new Brand
+                Edit new Tag
               </button>
             </div>
           </form>
@@ -245,9 +207,9 @@ const Brand = () => {
               <div className="table-responsive">
                 <DataTable
                   className="shadow-sm"
-                  title="All Brands List"
+                  title="All Tags List"
                   columns={cols}
-                  data={brand ? brand : []}
+                  data={tag ? tag : []}
                   selectableRows
                   highlightOnHover
                   pagination
@@ -257,7 +219,7 @@ const Brand = () => {
                   subHeaderComponent={
                     <input
                       className="form-control w-100"
-                      placeholder="Search brand..."
+                      placeholder="Search Tag..."
                       type="search"
                       value={search}
                       onChange={handleSearch}
@@ -274,4 +236,4 @@ const Brand = () => {
   );
 };
 
-export default Brand;
+export default Tag;

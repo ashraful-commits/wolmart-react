@@ -11,7 +11,12 @@ import {
   getAllRole,
   getAllUserData,
 } from "./features/user/userApiSlice";
-import { getAllBrands } from "./features/Product/ProductApiSlice";
+import {
+  getAllBrands,
+  getAllCategory,
+  getAllProduct,
+  getAllTags,
+} from "./features/Product/ProductApiSlice";
 
 function App() {
   const dispatch = useDispatch();
@@ -20,6 +25,9 @@ function App() {
     dispatch(getAllRole());
     dispatch(getAllUserData());
     dispatch(getAllBrands());
+    dispatch(getAllTags());
+    dispatch(getAllCategory());
+    dispatch(getAllProduct());
   }, [dispatch]);
   useEffect(() => {
     if (localStorage.getItem("user")) {

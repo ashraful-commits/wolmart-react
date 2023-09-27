@@ -82,7 +82,7 @@ const Permission = () => {
         Add new Permission
       </button>
       <div className="row">
-        <PopupModel target="permissionModel">
+        <PopupModel action="Add" name="Permission" target="permissionModel">
           <form onSubmit={handleFormSubmit}>
             <div className="my-3">
               <label htmlFor="">Permission Name</label>

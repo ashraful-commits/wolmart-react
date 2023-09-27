@@ -7,15 +7,15 @@ import avatar from "../../assets/img/profiles/avatar-01.jpg";
 import logosmall from "../../assets/img/logo-small.png";
 import useDropdown from "../../hooks/useDropdown";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { LogoutUser } from "../../features/auth/authApiSlice";
 import { Toastify } from "../../helper/Toastify";
 import { setMessageEmpty } from "../../features/auth/authSlice";
 import useAuthUser from "../../hooks/useAuthUser";
+
 const Header = () => {
   const { dropdown, dropfunc, refdown } = useDropdown();
-  const mini_sidebar = useRef(null);
 
   const handleToggle = () => {
     document.body.classList.toggle("mini-sidebar");
@@ -25,7 +25,7 @@ const Header = () => {
     console.log(e.target);
     dropfunc();
   };
-  console.log(mini_sidebar);
+  const [toggleSidebar, setToggleSidebar] = useState(false);
   const {
     dropdown: notiDrop,
     dropfunc: notidropfunc,
@@ -88,7 +88,11 @@ const Header = () => {
         </div>
 
         {/* <!-- Mobile Menu Toggle --> */}
-        <a className="mobile_btn" id="mobile_btn">
+        <a
+          className="mobile_btn"
+          onClick={() => setToggleSidebar(!toggleSidebar)}
+          id="mobile_btn"
+        >
           <i className="fa fa-bars"></i>
         </a>
         {/* <!-- /Mobile Menu Toggle --> */}
@@ -287,6 +291,108 @@ const Header = () => {
         </ul>
         {/* <!-- /Header Right Menu --> */}
       </div>
+      {toggleSidebar && (
+        <div
+          style={{
+            position: "absolute",
+            top: "5%",
+            left: 0,
+            zIndex: 99999999,
+            width: "100%",
+            height: "100vh",
+          }}
+        >
+          <div style={{ height: "100vh" }} className=" bg-secondary ">
+            <div className="  slimscroll">
+              <div className="">
+                <ul
+                  style={{
+                    listStyle: "none",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "10px",
+                    fontSize: "20px",
+                  }}
+                >
+                  <li className="menu-title ">
+                    <span>Main</span>
+                  </li>
+                  {user?.role?.permissions?.includes("Dashboard") && (
+                    <li
+                      className={`${location.pathname == "/" ? "active" : ""}`}
+                    >
+                      <Link to="/">
+                        <i className="fe fe-bar-chart-2"></i>{" "}
+                        <span>Dashboard</span>
+                      </Link>
+                    </li>
+                  )}
+                  {user?.role?.permissions?.includes("Order") && (
+                    <li className={`${location.pathname == "/order"}`}>
+                      <Link to="/order">
+                        <i className="fe fe-shopping-cart"></i>{" "}
+                        <span>Order</span>
+                      </Link>
+                    </li>
+                  )}
+                  {user?.role?.permissions?.includes("Products") && (
+                    <li className={`${location.pathname == "/products"}`}>
+                      <Link to="/products">
+                        <i className="fe fe-box"></i>
+                        <span>Products</span>
+                      </Link>
+                    </li>
+                  )}
+                  {user?.role?.permissions?.includes("Category") && (
+                    <li className={`${location.pathname == "/category"}`}>
+                      <Link to="/category">
+                        <i className="fe fe-tag"></i> <span>Category</span>
+                      </Link>
+                    </li>
+                  )}
+                  {user?.role?.permissions?.includes("Brands") && (
+                    <li className={`${location.pathname == "/brands"}`}>
+                      <Link to="/brands">
+                        <i className="fe fe-briefcase"></i>
+                        <span>Brands</span>
+                      </Link>
+                    </li>
+                  )}
+                  {user?.role?.permissions?.includes("Tags") && (
+                    <li className={`${location.pathname == "/tags"}`}>
+                      <Link to="/tags">
+                        <i className="fe fe-hash"></i> <span>Tags</span>
+                      </Link>
+                    </li>
+                  )}
+                  {user?.role?.permissions?.includes("User") && (
+                    <li className={`${location.pathname == "users/"}`}>
+                      <Link to="/users">
+                        <i className="fe fe-users"></i>
+                        <span>User</span>
+                      </Link>
+                    </li>
+                  )}
+                  {user?.role?.permissions?.includes("Role") && (
+                    <li className={`${location.pathname == "/role"}`}>
+                      <Link to="/role">
+                        <i className="fe fe-lock"></i> <span>Role</span>
+                      </Link>
+                    </li>
+                  )}
+                  {user?.role?.permissions?.includes("Permission") && (
+                    <li className={`${location.pathname == "/permission"}`}>
+                      <Link to="/permission">
+                        <i className="fe fe-shield"></i> <span>Permission</span>
+                      </Link>
+                    </li>
+                  )}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       {/* <!-- /Header --> */}
     </>
   );

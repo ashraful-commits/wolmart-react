@@ -121,7 +121,7 @@ const Role = () => {
         Add new Role
       </button>
       <div className="row">
-        <PopupModel target="rolemodle">
+        <PopupModel action="Add" name="Role" target="rolemodle">
           <form onSubmit={handleRoleCreate}>
             <div className="my-3">
               <label htmlFor="">Role Name</label>
@@ -164,7 +164,7 @@ const Role = () => {
             </div>
           </form>
         </PopupModel>
-        <PopupModel target="roleEdit">
+        <PopupModel action="Edit" name="Role" target="roleEdit">
           <form onSubmit={handleEditUpdate}>
             <div className="my-3">
               <label htmlFor="">Role Name</label>

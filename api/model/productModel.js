@@ -29,6 +29,7 @@ const productSchema = mongoose.Schema(
      },
      productPhotos:{
       type:Array,
+      default:null
       
      },
      stock:{
@@ -57,7 +58,7 @@ const productSchema = mongoose.Schema(
         // required:true,
        },
        productPhotos:{
-        type:{String},
+        type:[String],
         // required:true,
        },
        stock:{
@@ -66,10 +67,8 @@ const productSchema = mongoose.Schema(
        }}
       ],
     groupProduct:[
-      {name:{
-        type:String,
-        // required:true,
-       },
+      {
+      
        regularPrice:{
         type:Number,
         // required:true,
@@ -79,7 +78,7 @@ const productSchema = mongoose.Schema(
         // required:true,
        },
        productPhotos:{
-        type:{String},
+        type:[String],
         required:true,
        },
        stock:{
@@ -98,7 +97,7 @@ const productSchema = mongoose.Schema(
         // required:true,
        },
        productPhotos:{
-        type:{String},
+        type:[String],
         // required:true,
        },
        stock:{
@@ -114,15 +113,7 @@ const productSchema = mongoose.Schema(
       type: Boolean,
       trim: true,
     },
-    photo: {
-      type: String,
-      trim: true,
-      default: null,
-    },
-    gallery: {
-      type: Array,
-      trim: true,
-    },
+  
     longDesc: {
       type: String,
       trim: true,
@@ -135,7 +126,6 @@ const productSchema = mongoose.Schema(
       type:String,
       
     },
-   
     sku:{
       type:String,
     },

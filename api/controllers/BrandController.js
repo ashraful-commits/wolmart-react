@@ -26,15 +26,15 @@ export const createBrandProducts = asyncHandler(async (req, res, next) => {
   if(barndCheck){
      res.status(400).json({message:"Brand Already exists"})
   }else{
-    let logo = null
+    let logoImg = null
     if(req.file){
-       logo = await cloudUpload(req)
+       logoImg = await cloudUpload(req)
     }
     
       const data = await BrandModel.create({
         name,
         slug: createSlug(name),
-       logo:logo.secure_url?logo.secure_url:null,
+        logo:logoImg?.secure_url?logoImg?.secure_url:null,
         status: false,
       });
     
@@ -69,7 +69,9 @@ export const updateSingleBrandProducts = asyncHandler(async (req, res, next) => 
       })
     }else{
       let updatedLogo = brandUpdate.logo
-      await cloudDelete(publicIdGenerator(updatedLogo))
+      if(brandUpdate.logo){
+        await cloudDelete(publicIdGenerator(updatedLogo))
+      }
       if(req.file){
         const  updateUrl = await cloudUpload(req)
         updatedLogo = updateUrl.secure_url

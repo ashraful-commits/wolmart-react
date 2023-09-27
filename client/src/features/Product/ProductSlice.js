@@ -1,7 +1,7 @@
 // create atuh slice
 
 import { createSlice } from "@reduxjs/toolkit";
-import { brandStatusUpdate, createBrand, deleteBrand, getAllBrands, updateBrand } from "./ProductApiSlice";
+import { CategoryStatusUpdate, ProductStatusUpdate, TagStatusUpdate, brandStatusUpdate, createBrand, createCategory, createProduct, createTag, deleteBrand, deleteCategory, deleteProduct, deleteTag, getAllBrands, getAllCategory, getAllProduct, getAllTags, updateBrand, updateCategory, updateProduct, updateTag } from "./ProductApiSlice";
 
 const ProductSlice = createSlice({
   name: "product",
@@ -18,7 +18,7 @@ const ProductSlice = createSlice({
   },
   reducers: {
     setMessageEmpty: (state, action) => {
-      state.message = "";
+      state.message = null;
       state.error = null;
     },
   },
@@ -73,6 +73,162 @@ const ProductSlice = createSlice({
         state.brand[state.brand.findIndex((item)=>item._id===action.payload.brand._id)] = action.payload.brand
         state.message = action.payload.message
     }).addCase(brandStatusUpdate.rejected,(state,action)=>{
+        state.error = action.error.message,
+        state.loader = false
+    }).addCase(createTag.pending,(state,action)=>{
+        state.loader= true
+        
+    }).addCase(createTag.fulfilled,(state,action)=>{
+ 
+        state.loader= false
+        state.tag = state.tag ?? [],
+        state.tag.push(action.payload.tag)
+        state.message = action.payload.message
+    }).addCase(createTag.rejected,(state,action)=>{
+        state.error = action.error.message,
+        state.loader = false
+    }).addCase(getAllTags.pending,(state,action)=>{
+        state.loader= true
+        
+    }).addCase(getAllTags.fulfilled,(state,action)=>{
+        state.loader= false
+        state.tag = action.payload.tag
+    }).addCase(getAllTags.rejected,(state,action)=>{
+        state.error = action.error.message,
+        state.loader = false
+    }).addCase(updateTag.pending,(state,action)=>{
+        state.loader= true
+        
+    }).addCase(updateTag.fulfilled,(state,action)=>{
+        state.loader= false
+        state.message = action.payload.message
+        state.tag[state.tag.findIndex((item)=>item._id===action.payload.tag._id)] = action.payload.tag
+        state.message = action.payload.message
+    }).addCase(updateTag.rejected,(state,action)=>{
+        state.error = action.error.message,
+        state.loader = false
+    }).addCase(deleteTag.pending,(state,action)=>{
+        state.loader= true
+        
+    }).addCase(deleteTag.fulfilled,(state,action)=>{
+        state.loader= false
+        state.message = action.payload.message
+        state.tag = [...state.tag.filter((item)=>item._id!==action.payload.tag._id)]
+    }).addCase(deleteTag.rejected,(state,action)=>{
+        state.error = action.error.message,
+        state.loader = false
+    }).addCase(TagStatusUpdate.pending,(state,action)=>{
+        state.loader= true
+        
+    }).addCase(TagStatusUpdate.fulfilled,(state,action)=>{
+        state.loader= false
+        state.tag[state.tag.findIndex((item)=>item._id===action.payload.tag._id)] = action.payload.tag
+        state.message = action.payload.message
+    }).addCase(TagStatusUpdate.rejected,(state,action)=>{
+        state.error = action.error.message,
+        state.loader = false
+    }).addCase(createCategory.pending,(state,action)=>{
+        state.loader= true
+        
+    }).addCase(createCategory.fulfilled,(state,action)=>{
+ 
+        state.loader= false
+        state.category = state.category ?? [],
+        state.category.push(action.payload.category)
+        state.message = action.payload.message
+    }).addCase(createCategory.rejected,(state,action)=>{
+        state.error = action.error.message,
+        state.loader = false
+    }).addCase(getAllCategory.pending,(state,action)=>{
+        state.loader= true
+        
+    }).addCase(getAllCategory.fulfilled,(state,action)=>{
+        state.loader= false
+        state.category = action.payload.category
+    }).addCase(getAllCategory.rejected,(state,action)=>{
+        state.error = action.error.message,
+        state.loader = false
+    }).addCase(updateCategory.pending,(state,action)=>{
+        state.loader= true
+        
+    }).addCase(updateCategory.fulfilled,(state,action)=>{
+        state.loader= false
+        state.message = action.payload.message
+        state.category[state.category.findIndex((item)=>item._id===action.payload.category._id)] = action.payload.category
+        state.message = action.payload.message
+    }).addCase(updateCategory.rejected,(state,action)=>{
+        state.error = action.error.message,
+        state.loader = false
+    }).addCase(deleteCategory.pending,(state,action)=>{
+        state.loader= true
+        
+    }).addCase(deleteCategory.fulfilled,(state,action)=>{
+        state.loader= false
+        state.message = action.payload.message
+        state.category = [...state.category.filter((item)=>item._id!==action.payload.category._id)]
+    }).addCase(deleteCategory.rejected,(state,action)=>{
+        state.error = action.error.message,
+        state.loader = false
+    }).addCase(CategoryStatusUpdate.pending,(state,action)=>{
+        state.loader= true
+        
+    }).addCase(CategoryStatusUpdate.fulfilled,(state,action)=>{
+        state.loader= false
+        state.category[state.category.findIndex((item)=>item._id===action.payload.category._id)] = action.payload.category
+        state.message = action.payload.message
+    }).addCase(CategoryStatusUpdate.rejected,(state,action)=>{
+        state.error = action.error.message,
+        state.loader = false
+    }).addCase(createProduct.pending,(state,action)=>{
+        state.loader= true
+        
+    }).addCase(createProduct.fulfilled,(state,action)=>{
+ 
+        state.loader= false
+        state.category = state.category ?? [],
+        state.category.push(action.payload.product)
+        state.message = action.payload.message
+    }).addCase(createProduct.rejected,(state,action)=>{
+        state.error = action.error.message,
+        state.loader = false
+    }).addCase(getAllProduct.pending,(state,action)=>{
+        state.loader= true
+        
+    }).addCase(getAllProduct.fulfilled,(state,action)=>{
+        state.loader= false
+        state.product = action.payload.product
+    }).addCase(getAllProduct.rejected,(state,action)=>{
+        state.error = action.error.message,
+        state.loader = false
+    }).addCase(updateProduct.pending,(state,action)=>{
+        state.loader= true
+        
+    }).addCase(updateProduct.fulfilled,(state,action)=>{
+        state.loader= false
+        state.message = action.payload.message
+        state.product[state.product.findIndex((item)=>item._id===action.payload.product._id)] = action.payload.product
+        state.message = action.payload.message
+    }).addCase(updateProduct.rejected,(state,action)=>{
+        state.error = action.error.message,
+        state.loader = false
+    }).addCase(deleteProduct.pending,(state,action)=>{
+        state.loader= true
+        
+    }).addCase(deleteProduct.fulfilled,(state,action)=>{
+        state.loader= false
+        state.message = action.payload.message
+        state.product = [...state.product.filter((item)=>item._id!==action.payload.product._id)]
+    }).addCase(deleteProduct.rejected,(state,action)=>{
+        state.error = action.error.message,
+        state.loader = false
+    }).addCase(ProductStatusUpdate.pending,(state,action)=>{
+        state.loader= true
+        
+    }).addCase(ProductStatusUpdate.fulfilled,(state,action)=>{
+        state.loader= false
+        state.product[state.product.findIndex((item)=>item._id===action.payload.product._id)] = action.payload.product
+        state.message = action.payload.message
+    }).addCase(ProductStatusUpdate.rejected,(state,action)=>{
         state.error = action.error.message,
         state.loader = false
     })

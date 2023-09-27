@@ -8,6 +8,10 @@ import Setting from "../pages/Setting/Setting";
 import Role from "../pages/Role/Role";
 import Permission from "../pages/Permission/Permission";
 import Brand from "../pages/Brand/Brand";
+import Tag from "../pages/Tag/Tag";
+import Category from "../pages/Category/Category";
+import Product from "../pages/Product/Product";
+import Create from "../pages/Product/Create";
 
 const privateRouter = [
   {
@@ -43,6 +47,22 @@ const privateRouter = [
           {
             path: "/brands",
             element: <Brand />,
+          },
+          {
+            path: "/tags",
+            element: <Tag />,
+          },
+          {
+            path: "/category",
+            element: <Category />,
+          },
+          {
+            path: "/products",
+            element: <Product />,
+          },
+          {
+            path: "/create-product",
+            element: <Create />,
           },
           {
             path: "/*",
