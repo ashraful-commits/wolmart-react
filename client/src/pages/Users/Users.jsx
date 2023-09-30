@@ -69,10 +69,6 @@ const Users = () => {
       Toastify(error, "error");
       dispatch(setMessageEmpty());
     }
-    if (message) {
-      Toastify(message, "success");
-      dispatch(setMessageEmpty());
-    }
   }, [error, message, dispatch]);
   useEffect(() => {
     new DataTable(".datatable");

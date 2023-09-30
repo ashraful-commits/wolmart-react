@@ -105,10 +105,6 @@ const Brand = () => {
       Toastify(error, "error");
       dispatch(setMessageEmpty());
     }
-    if (message) {
-      Toastify(message, "success");
-      dispatch(setMessageEmpty());
-    }
   }, [error, message, dispatch, brand]);
   const cols = [
     {

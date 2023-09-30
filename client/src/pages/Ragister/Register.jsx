@@ -60,7 +60,6 @@ const Register = () => {
   return (
     <>
       <div className="main-wrapper login-body">
-
         <div className="login-wrapper">
           <div className="container">
             <div className="loginbox">

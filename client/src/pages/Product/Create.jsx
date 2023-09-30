@@ -52,10 +52,6 @@ const Create = () => {
       Toastify(error, "error");
       dispatch(setMessageEmpty());
     }
-    if (message) {
-      Toastify(message, "success");
-      dispatch(setMessageEmpty());
-    }
   }, [error, message, dispatch, product]);
 
   const TagOption = [];
